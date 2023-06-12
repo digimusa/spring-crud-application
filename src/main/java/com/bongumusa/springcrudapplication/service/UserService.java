@@ -1,5 +1,6 @@
 package com.bongumusa.springcrudapplication.service;
 
+import com.bongumusa.springcrudapplication.exceptions.ResourceNotFoundException;
 import com.bongumusa.springcrudapplication.model.User;
 import com.bongumusa.springcrudapplication.repository.UserRepo;
 import org.springframework.context.annotation.Bean;
@@ -50,7 +51,8 @@ public class UserService {
     //Service method to get a user by id
     public User getUserById(int id) {
         //returning a findByID method from JPA repository that takes in a id parameter
-        return userRepo.findById(id).orElse(null);
+        return this.userRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User ID: " + id + " is not found"));
     }
 
     //Service method to get all users
@@ -61,7 +63,8 @@ public class UserService {
 
     public User updateUser(User user) {
         User oldUser = null;
-        Optional<User> optionalUser = userRepo.findById(user.getId());
+        Optional<User> optionalUser = Optional.ofNullable(userRepo.findById(user.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User ID: " + user.getId() + " is not found")));
         if (optionalUser.isPresent()) {
             oldUser = optionalUser.get();
             oldUser.setFullname(user.getFullname());

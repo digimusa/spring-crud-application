@@ -3,6 +3,8 @@ package com.bongumusa.springcrudapplication.controller;
 import com.bongumusa.springcrudapplication.model.User;
 import com.bongumusa.springcrudapplication.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,23 +18,23 @@ public class UserController {
 
     @PostMapping("/addUser")
     //method to add/create new user
-    public User addUser(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody User user) {
         //returning method to add/create user from user service class
-        return userService.createUser(user);
+        return new ResponseEntity<>(userService.createUser(user), HttpStatus.OK);
     }
 
     @PostMapping("/addUsers")
     //method to add/create new users
-    public List<User> addUsers(@RequestBody List<User> users) {
+    public ResponseEntity<List<User>> addUsers(@RequestBody List<User> users) {
         //returning method to add/create users from user service class
-        return userService.createUsers(users);
+        return new ResponseEntity<>(userService.createUsers(users), HttpStatus.OK);
     }
 
     @GetMapping("/getUser/{id}")
     //method to get user passing the id
     public User getUserById(@PathVariable int id) {
         //returning method to get user by id from user service class
-        return userService.getUserById(id);
+        return this.userService.getUserById(id);
     }
 
     @GetMapping("/getUsers")
