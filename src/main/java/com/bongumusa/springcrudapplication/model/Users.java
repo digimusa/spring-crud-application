@@ -9,14 +9,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+public class Users {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     private String fullname;
     private String email;
     private String phone;
